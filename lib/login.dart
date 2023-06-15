@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'register.dart';
+import 'model/Student.dart';
+import 'helper/db_helper.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -28,13 +30,24 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  void onSubmitBtnPressed() {
+  void navigateBack(Student s) {
+    Navigator.pop(context, s.name);
+  }
+
+  void invalidCredential() {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("Invalid Credentials")));
+  }
+
+  void onSubmitBtnPressed() async {
     if (_formKey.currentState!.validate()) {
-      if (emailController.text == "a" && passwordController.text == "a") {
-        Navigator.pop(context, emailController.text);
+      Student? s = await DBHelper.getStudent(
+          emailController.text, passwordController.text);
+
+      if (s != null) {
+        navigateBack(s);
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Invalid Credentials")));
+        invalidCredential();
       }
     } else {
       ScaffoldMessenger.of(context)

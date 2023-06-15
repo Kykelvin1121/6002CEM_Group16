@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'model/Student.dart';
+import 'helper/db_helper.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key, required this.title});
@@ -47,6 +49,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void onSubmitBtnPressed() {
     if (_formKey.currentState!.validate()) {
+      Student s = Student(
+          id: 0,
+          name: nameController.text,
+          email: emailController.text,
+          password: passwordController.text);
+      DBHelper.insertStudent(s);
+
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Registration Completed!")));
       Navigator.pop(context, emailController.text);
@@ -77,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 16),
+                          horizontal: 6, vertical: 8),
                       child: Text("Registration",
                           style: TextStyle(
                               fontSize: 24,
@@ -85,15 +94,15 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Theme.of(context).colorScheme.primary))),
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 16),
+                          horizontal: 6, vertical: 8),
                       child: TextFormField(
                           controller: nameController,
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder(), labelText: "Email"),
+                              border: OutlineInputBorder(), labelText: "Name"),
                           validator: nameValidator)),
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 16),
+                          horizontal: 6, vertical: 8),
                       child: TextFormField(
                           controller: emailController,
                           decoration: const InputDecoration(
@@ -101,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           validator: emailValidator)),
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
+                          horizontal: 8, vertical: 8),
                       child: TextFormField(
                           controller: passwordController,
                           obscureText: true,
@@ -111,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           validator: passwordValidator)),
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
+                          horizontal: 8, vertical: 8),
                       child: TextFormField(
                           controller: confirmPasswordController,
                           obscureText: true,
@@ -121,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           validator: confirmPasswordValidator)),
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
+                          horizontal: 8, vertical: 8),
                       child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -129,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: const Text("Submit")))),
                   Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
+                          horizontal: 8, vertical: 8),
                       child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
