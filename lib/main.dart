@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,71 +17,60 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const LoginPage(title: 'Enrichment Classes Booking System'),
+      home: const HomePage(title: 'Enrichment Classes Booking System'),
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, required this.title});
+
   final String title;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  int _counter = 0;
+class _HomePageState extends State<HomePage> {
+  String email = "";
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void checkLoginStatus() async {
+    String? result = "";
+    while (email.isEmpty) {
+      result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => LoginPage(title: widget.title)));
+
+      setState(() {
+        email = result ?? "";
+      });
+    }
   }
 
-/*
   @override
-  Widget build(BuildContext context) {
-    return Container(
-        alignment: Alignment.center,
-        color: Colors.white,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text('You have pushed the button this many times:'),
-              Text('$_counter'),
-              TextButton(
-                  onPressed: _incrementCounter, child: const Text('Press'))
-            ]));
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => checkLoginStatus());
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            TextButton(onPressed: _incrementCounter, child: const Text('Press'))
-          ],
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(widget.title),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        body: Column(
+          children: [
+            Text(email),
+            Center(
+                child: ElevatedButton(
+                    onPressed: () {
+                      //Navigator.pop(context);
+                    },
+                    child: const Text("Go back!")))
+          ],
+        ));
   }
 }
