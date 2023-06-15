@@ -81,6 +81,14 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 8),
+                      child: Text("Login",
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary))),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 6, vertical: 16),
                       child: TextFormField(
                           controller: emailController,

@@ -35,20 +35,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String email = "";
+  String name = "";
 
   void checkLoginStatus() async {
     String? result = "";
-    while (email.isEmpty) {
+    while (name.isEmpty) {
       result = await Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => LoginPage(title: widget.title)));
 
       setState(() {
-        email = result ?? "";
+        name = result ?? "";
       });
     }
+  }
+
+  void onFloatingBtnPressed() {}
+
+  void onLogoutBtnPressed() {
+    setState(() {
+      name = "";
+    });
+    checkLoginStatus();
   }
 
   @override
@@ -60,20 +69,63 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
-        ),
-        body: Column(
-          children: [
-            Text(email),
-            Center(
-                child: ElevatedButton(
-                    onPressed: () {
-                      //Navigator.pop(context);
-                    },
-                    child: const Text("Go back!")))
-          ],
-        ));
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+              child: Text("Hi, $name",
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary))),
+          Container(
+            margin: const EdgeInsets.all(10),
+            width: 300,
+            height: 200,
+            alignment: Alignment.centerLeft,
+            color: Colors.green,
+            child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text("Your classes\nxxx on today\nxxx on this week",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white))),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10),
+            width: 300,
+            height: 200,
+            alignment: Alignment.centerLeft,
+            color: Colors.blue,
+            child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Text(
+                    "Students' attendance rate\nthis week: xx%\nlast week: xx%",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white))),
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: onLogoutBtnPressed,
+                      child: const Text("Logout"))))
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: onFloatingBtnPressed,
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
