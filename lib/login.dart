@@ -30,8 +30,8 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  void navigateBack(Provider s) {
-    Navigator.pop(context, s.name);
+  void navigateBack(Provider p) {
+    Navigator.pop(context, p);
   }
 
   void invalidCredential() {
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void onSubmitBtnPressed() async {
     if (_formKey.currentState!.validate()) {
-      Provider? s = await DBHelper.getStudent(
+      Provider? s = await DBHelper.getProvider(
           emailController.text, passwordController.text);
 
       if (s != null) {

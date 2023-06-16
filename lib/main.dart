@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'model/Provider.dart';
+import 'booking_list.dart';
 import 'helper/db_helper.dart';
 
 void main() {
@@ -35,31 +37,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String name = "";
+  Provider? p;
 
   void checkLoginStatus() async {
-    String? result = "";
-    while (name.isEmpty) {
-      result = await Navigator.push(
+    while (p == null) {
+      Provider? result = await Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => LoginPage(title: widget.title)));
 
       setState(() {
-        name = result ?? "";
+        p = result;
       });
     }
   }
 
   void retrieveClassInfo() async {
-    if (name.isEmpty) return;
+    if (p == null) return;
   }
 
-  void onFloatingBtnPressed() {}
+  void onFloatingBtnPressed() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => BookingPage(provider: p)));
+  }
 
   void onLogoutBtnPressed() {
     setState(() {
-      name = "";
+      p = null;
     });
     checkLoginStatus();
   }
@@ -84,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-              child: Text("Hi, $name",
+              child: Text("Hi, ${p?.name}",
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,

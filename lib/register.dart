@@ -54,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
           name: nameController.text,
           email: emailController.text,
           password: passwordController.text);
-      DBHelper.insertStudent(s);
+      DBHelper.insertProvider(s);
 
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Registration Completed!")));

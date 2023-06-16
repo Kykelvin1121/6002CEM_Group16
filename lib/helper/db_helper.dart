@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqflite.dart';
+import '../model/Booking.dart';
+import '../model/Classroom.dart';
 import '../model/Provider.dart';
 
 class DBHelper {
@@ -9,21 +13,47 @@ class DBHelper {
     WidgetsFlutterBinding.ensureInitialized();
 
     database = openDatabase('ECMS_DB',
-        onCreate: (db, version) => db.execute(
-            "CREATE TABLE providers(id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT)"),
-        version: 1);
+        onCreate: onDatabaseCreated, onUpgrade: onDatabaseUpgrade, version: 1);
   }
 
-  static Future<void> insertStudent(Provider s) async {
+  static FutureOr<void> onDatabaseUpgrade(
+      Database db, int oldVersion, int newVersion) {
+    db.execute("DROP TABLE IF EXISTS providers");
+    db.execute("DROP TABLE IF EXISTS classroom");
+    db.execute("DROP TABLE IF EXISTS booking");
+
+    onDatabaseCreated(db, newVersion);
+  }
+
+  static FutureOr<void> onDatabaseCreated(Database db, int version) {
+    db.execute(
+        "CREATE TABLE providers(id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT)");
+    db.execute(
+        "CREATE TABLE classroom(id INTEGER PRIMARY KEY, name TEXT, email TEXT, maxStudent INTEGER)");
+    db.execute(
+        "CREATE TABLE booking(id INTEGER PRIMARY KEY,classroomId INTEGER, providerId INTEGER, sessionStartTime DATETIME, sessionEndTime DATETIME, numStudent INTEGER, attendedStudent INTEGER, FOREIGN KEY(classroomId) REFERENCES classroom(id) FOREIGN KEY(providerId) REFERENCES providers(id));");
+
+    db.insert(
+        "classroom", Classroom(id: 0, name: "Room1", maxStudent: 30).toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    db.insert(
+        "classroom", Classroom(id: 0, name: "Room2", maxStudent: 30).toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    db.insert(
+        "classroom", Classroom(id: 0, name: "Room3", maxStudent: 30).toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  static Future<void> insertProvider(Provider s) async {
     Database? db = await database;
 
     if (db != null) {
-      await db.insert('students', s.toMap(),
+      await db.insert('providers', s.toMap(),
           conflictAlgorithm: ConflictAlgorithm.replace);
     }
   }
 
-  static Future<Provider?> getStudent(String email, String password) async {
+  static Future<Provider?> getProvider(String email, String password) async {
     Database? db = await database;
 
     if (db != null) {
