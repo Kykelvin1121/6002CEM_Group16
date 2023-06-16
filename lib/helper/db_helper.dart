@@ -5,7 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import '../model/Booking.dart';
 import '../model/Classroom.dart';
 import '../model/Provider.dart';
-import '../book_classroom.dart';
 
 class DBHelper {
   static Future<Database>? database;
@@ -150,8 +149,8 @@ class DBHelper {
       id: maps[0]['id'],
       classroomId: maps[0]['classroomId'],
       providerId: maps[0]['providerId'],
-      sessionStartTime: maps[0]['sessionStartTime'],
-      sessionEndTime: maps[0]['sessionEndTime'],
+      sessionStartTime: DateTime.parse(maps[0]['sessionStartTime']),
+      sessionEndTime: DateTime.parse(maps[0]['sessionEndTime']),
       numStudent: maps[0]['numStudent'],
       attendedStudent: maps[0]['attendedStudent'],
     );
@@ -178,8 +177,31 @@ class DBHelper {
         id: maps[i]['id'],
         classroomId: maps[i]['classroomId'],
         providerId: maps[i]['providerId'],
-        sessionStartTime: maps[i]['sessionStartTime'],
-        sessionEndTime: maps[i]['sessionEndTime'],
+        sessionStartTime: DateTime.parse(maps[i]['sessionStartTime']),
+        sessionEndTime: DateTime.parse(maps[i]['sessionEndTime']),
+        numStudent: maps[i]['numStudent'],
+        attendedStudent: maps[i]['attendedStudent'],
+      );
+    });
+  }
+
+  static Future<List<Booking>?> getBookingListFromProvider(Provider p) async {
+    Database? db = await database;
+
+    if (db == null) return null;
+
+    final List<Map<String, dynamic>> maps =
+        await db.query("booking", where: "providerId=?", whereArgs: [p.id]);
+
+    if (maps.isEmpty) return null;
+
+    return List.generate(maps.length, (i) {
+      return Booking(
+        id: maps[i]['id'],
+        classroomId: maps[i]['classroomId'],
+        providerId: maps[i]['providerId'],
+        sessionStartTime: DateTime.parse(maps[i]['sessionStartTime']),
+        sessionEndTime: DateTime.parse(maps[i]['sessionEndTime']),
         numStudent: maps[i]['numStudent'],
         attendedStudent: maps[i]['attendedStudent'],
       );

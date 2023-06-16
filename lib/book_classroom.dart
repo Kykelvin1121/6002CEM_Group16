@@ -97,7 +97,7 @@ class _AddClassPageState extends State<AddClassPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Booking List"),
+        title: const Text("Booking Classroom"),
       ),
       body: Form(
         key: _formKey,
