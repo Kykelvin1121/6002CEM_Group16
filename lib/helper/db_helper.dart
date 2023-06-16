@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqflite.dart';
-import '../model/Student.dart';
+import '../model/Provider.dart';
 
 class DBHelper {
   static Future<Database>? database;
@@ -10,11 +10,11 @@ class DBHelper {
 
     database = openDatabase('ECMS_DB',
         onCreate: (db, version) => db.execute(
-            "CREATE TABLE students(id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT)"),
+            "CREATE TABLE providers(id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT)"),
         version: 1);
   }
 
-  static Future<void> insertStudent(Student s) async {
+  static Future<void> insertStudent(Provider s) async {
     Database? db = await database;
 
     if (db != null) {
@@ -23,16 +23,16 @@ class DBHelper {
     }
   }
 
-  static Future<Student?> getStudent(String email, String password) async {
+  static Future<Provider?> getStudent(String email, String password) async {
     Database? db = await database;
 
     if (db != null) {
-      final List<Map<String, dynamic>> maps = await db.query("students",
+      final List<Map<String, dynamic>> maps = await db.query("providers",
           where: "email=? AND password=?", whereArgs: [email, password]);
 
       if (maps.isEmpty) return null;
 
-      return Student(
+      return Provider(
           id: maps[0]['id'],
           name: maps[0]['name'],
           email: maps[0]['email'],

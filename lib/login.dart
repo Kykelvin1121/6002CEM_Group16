@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'register.dart';
-import 'model/Student.dart';
+import 'model/Provider.dart';
 import 'helper/db_helper.dart';
 
 class LoginPage extends StatefulWidget {
@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  void navigateBack(Student s) {
+  void navigateBack(Provider s) {
     Navigator.pop(context, s.name);
   }
 
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void onSubmitBtnPressed() async {
     if (_formKey.currentState!.validate()) {
-      Student? s = await DBHelper.getStudent(
+      Provider? s = await DBHelper.getStudent(
           emailController.text, passwordController.text);
 
       if (s != null) {

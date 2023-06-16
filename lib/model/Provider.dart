@@ -1,12 +1,12 @@
 // ignore_for_file: file_names
 
-class Student {
+class Provider {
   final int id;
   final String name;
   final String email;
   final String password;
 
-  Student(
+  Provider(
       {required this.id,
       required this.name,
       required this.email,

@@ -51,6 +51,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void retrieveClassInfo() async {
+    if (name.isEmpty) return;
+  }
+
   void onFloatingBtnPressed() {}
 
   void onLogoutBtnPressed() {
@@ -64,6 +68,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => checkLoginStatus());
+    WidgetsBinding.instance.addPostFrameCallback((_) => retrieveClassInfo());
   }
 
   @override

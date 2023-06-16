@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'model/Student.dart';
+import 'model/Provider.dart';
 import 'helper/db_helper.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -49,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void onSubmitBtnPressed() {
     if (_formKey.currentState!.validate()) {
-      Student s = Student(
+      Provider s = Provider(
           id: 0,
           name: nameController.text,
           email: emailController.text,
