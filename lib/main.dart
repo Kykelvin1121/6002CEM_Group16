@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'model/Provider.dart';
-import 'booking_list.dart';
+import 'book_classroom.dart';
 import 'helper/db_helper.dart';
 
 void main() {
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
 
   void onFloatingBtnPressed() {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => BookingPage(provider: p)));
+        MaterialPageRoute(builder: (context) => AddClassPage(provider: p)));
   }
 
   void onLogoutBtnPressed() {

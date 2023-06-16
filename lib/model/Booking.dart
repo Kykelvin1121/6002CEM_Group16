@@ -30,11 +30,10 @@ class Booking {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'classroomId': classroomId,
       'providerId': providerId,
-      'sessionStartTime': sessionStartTime,
-      'sessionEndTime': sessionEndTime,
+      'sessionStartTime': sessionStartTime.toString(),
+      'sessionEndTime': sessionEndTime.toString(),
       'numStudent': numStudent,
       'attendedStudent': attendedStudent ?? 0
     };

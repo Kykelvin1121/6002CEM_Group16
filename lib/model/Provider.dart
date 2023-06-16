@@ -13,6 +13,6 @@ class Provider {
       required this.password});
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name, 'email': email, 'password': password};
+    return {'name': name, 'email': email, 'password': password};
   }
 }

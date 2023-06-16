@@ -31,25 +31,18 @@ class _BookingPageState extends State<BookingPage> {
     return null;
   }
 
-  void navigateBack(Provider p) {
-    Navigator.pop(context, p);
-  }
-
-  void invalidCredential() {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("Invalid Credentials")));
+  void navigateBack() {
+    Navigator.pop(context);
   }
 
   void onSubmitBtnPressed() async {
     if (_formKey.currentState!.validate()) {
-      Provider? s = await DBHelper.getProvider(
-          emailController.text, passwordController.text);
+      bool valid = false;
+      String msg = "";
 
-      if (s != null) {
-        navigateBack(s);
-      } else {
-        invalidCredential();
-      }
+      if (valid) {
+        navigateBack();
+      } else {}
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Please fill input")));

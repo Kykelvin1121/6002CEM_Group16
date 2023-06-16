@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: double.infinity,
                           child: ElevatedButton(
                               onPressed: onSubmitBtnPressed,
-                              child: const Text("Submit")))),
+                              child: const Text("Login")))),
                   Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
